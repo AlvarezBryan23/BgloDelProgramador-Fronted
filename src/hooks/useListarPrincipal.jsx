@@ -1,11 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { getListarCategoria } from "../services/api";
+import { getListarCategoria } from "../services/api"
 
-const CATEGORIAS_VALIDAS = ["practica supervisada", "tecnologia", "taller"];
-
-// Separa formateo de fecha como función reutilizable (buenas prácticas)
+// Función reutilizable para formatear la fecha
 const formatFecha = (fechaISO) => {
-  if (!fechaISO) return "Fecha no disponible";
+   if (!fechaISO) return "Fecha no disponible";
   try {
     const fecha = new Date(fechaISO);
     return new Intl.DateTimeFormat("es-GT", {
@@ -23,28 +21,20 @@ const formatFecha = (fechaISO) => {
   }
 };
 
-export const useListarCategoria = (categoriaSeleccionada) => {
+export const useListarPrincipal = () => {
   const [publicaciones, setPublicaciones] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchPublicaciones = useCallback(async () => {
-    const categoria = categoriaSeleccionada?.toLowerCase();
-
-    if (!CATEGORIAS_VALIDAS.includes(categoria)) {
-      setError("Selecciona una categoría válida.");
-      setPublicaciones([]);
-      return;
-    }
-
+  const fetchTodas = useCallback(async () => {
     setLoading(true);
     setError(null);
 
     try {
+      // ✅ NO se envía listarOrden => backend devolverá todas las publicaciones
       const response = await getListarCategoria({
-        listarOrden: categoria,
-        limit: 10,
-        from: 0,
+        limit: 50,
+        from: 0
       });
 
       const publicacionesArray = response?.publicaciones ?? [];
@@ -66,18 +56,16 @@ export const useListarCategoria = (categoriaSeleccionada) => {
     } finally {
       setLoading(false);
     }
-  }, [categoriaSeleccionada]);
+  }, []);
 
   useEffect(() => {
-    if (categoriaSeleccionada) {
-      fetchPublicaciones();
-    }
-  }, [categoriaSeleccionada, fetchPublicaciones]);
+    fetchTodas();
+  }, [fetchTodas]);
 
   return {
     publicaciones,
     loading,
     error,
-    refetch: fetchPublicaciones,
+    refetch: fetchTodas,
   };
 };

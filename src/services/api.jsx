@@ -69,17 +69,17 @@ export const getEditarPassword = async(id, data) =>{
     }
   }
 
-  export const getListarCategoria = async ({ listarOrden }) => {
-  try {
-    const response = await apiClient.get('/publicaciones/listarPublicacion', {
-      params: { listarOrden } 
-    });
-    return response.data;
-  } catch (err) {
-    console.error("Error al listar la publicación", err);
-    return { success: false };
-  }
-};
+    export const getListarCategoria = async ({ listarOrden }) => {
+    try {
+      const response = await apiClient.post('/publicaciones/listarPublicacion', {
+        listarOrden 
+      });
+      return response.data;
+    } catch (err) {
+      console.error("Error al listar la publicación", err);
+      return { success: false };
+    }
+  };
 
 //Rutas de los comentarios
 export const getAgregarComentario = async(data) =>{

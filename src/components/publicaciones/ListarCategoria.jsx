@@ -6,7 +6,7 @@ export const ListarCategoria = () => {
   const [categoria, setCategoria] = useState("");
   const { publicaciones, loading, error } = useListarCategoria(categoria);
 
-  const categoriasDisponibles = ["tics", "tecnologia", "taller"];
+  const categoriasDisponibles = ["practica supervisada", "tecnologia", "taller"];
 
   const containerStyle = {
     marginTop: "0px",

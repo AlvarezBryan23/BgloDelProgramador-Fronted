@@ -155,7 +155,7 @@ export const AgregarPublicacion = () => {
               onChange={handleChange}
               required
               style={inputStyle}
-              placeholder="TECNOLOGIA, TALLER, TICS"
+              placeholder="TECNOLOGIA, TALLER, PRACTICA SUPERVISADA"
             />
           </div>
 
